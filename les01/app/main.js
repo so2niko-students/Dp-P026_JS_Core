@@ -87,3 +87,9 @@ console.log(isHuman);
 
 // navigator.geolocation();
 navigator.geolocation.getCurrentPosition((pos) => console.log(pos));
+
+//Операторы
+
+//унарные - 1 операнд
+//бинарные - 2 операнда
+//тернарные - 3 операнда (тернарное условие)
