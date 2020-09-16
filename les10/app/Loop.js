@@ -8,6 +8,17 @@ export default class Loop{
         this.infoFields = document.querySelector('.info_fields');
 
         this.btnAdd.addEventListener('click', this.onAddClick);
+
+        this.firstLoad();
+
+        this.renderList();
+    }
+
+    firstLoad(){
+        const str = localStorage.getItem('dates');
+        if(str){
+            this.dates = JSON.parse(str);
+        }
     }
 
     onAddClick = () => {
@@ -17,24 +28,32 @@ export default class Loop{
         this.dates.push({
             name,
             month,
-            date
+            date 
         });
 
-
-        console.log(this.dates);
+        this.calculateDays();
+        
+        localStorage.setItem('dates', JSON.stringify(this.dates));
 
         this.renderList();
     }
 
-    renderList(){
-        const htmlStr = this.dates.map(({ name, month, date }) => {
+    calculateDays(){
+        this.dates.forEach(el => {
+            const { month, date } = el;
             const td = new Date();
 
             const d = new Date(td.getFullYear() + 1, month - 1, date);
             
-            const days = Math.ceil(Math.abs((td - d) / ( 1000 * 60 * 60 * 24))) % 365;
+            el.daysLeft = Math.ceil(Math.abs((td - d) / ( 1000 * 60 * 60 * 24))) % 365;
+        });
 
-            return `<div>${days} days to ${month}.${date} : ${name}</div>`;
+        this.dates.sort((prev, next) => prev.daysLeft - next.daysLeft);
+    }
+
+    renderList(){
+        const htmlStr = this.dates.map(({ name, month, date, daysLeft }) => {
+            return `<div>${ daysLeft } days to ${ month }.${ date } : ${ name }</div>`;
         }).join('');
 
         this.infoFields.innerHTML = htmlStr;
