@@ -1,61 +1,62 @@
 export default class Loop{
-    dates = [];
+    // dates = [];//данные
 
     constructor(){
-        this.inpDate = document.querySelector('.inp_date');
-        this.inpName = document.querySelector('.inp_name');
-        this.btnAdd = document.querySelector('.btn_add');
-        this.infoFields = document.querySelector('.info_fields');
+        // this.inpDate = document.querySelector('.inp_date');
+        // this.inpName = document.querySelector('.inp_name');
+        // this.btnAdd = document.querySelector('.btn_add');
+        // this.infoFields = document.querySelector('.info_fields');
 
-        this.btnAdd.addEventListener('click', this.onAddClick);
+        // this.btnAdd.addEventListener('click', this.onAddClick);
+        //работа с DOM
 
-        this.firstLoad();
+        // this.firstLoad();//работа с данными
 
-        this.renderList();
+        // this.renderList();//работа с DOM, графикой
     }
 
-    firstLoad(){
-        const str = localStorage.getItem('dates');
-        if(str){
-            this.dates = JSON.parse(str);
-        }
-    }
+    // firstLoad(){//работа с данными
+    //     const str = localStorage.getItem('dates');
+    //     if(str){
+    //         this.dates = JSON.parse(str);
+    //     }
+    // }
 
-    onAddClick = () => {
-        const name = this.inpName.value;
-        const [month, date] = this.inpDate.value.split('-').slice(1);
+    // onAddClick = () => {//обработка клика на кнопку
+    //     const name = this.inpName.value;//DOM
+    //     const [month, date] = this.inpDate.value.split('-').slice(1);
 
-        this.dates.push({
-            name,
-            month,
-            date 
-        });
+    //     this.dates.push({//данные
+    //         name,
+    //         month,
+    //         date 
+    //     });
 
-        this.calculateDays();
+    //     this.calculateDays();
         
-        localStorage.setItem('dates', JSON.stringify(this.dates));
+    //     localStorage.setItem('dates', JSON.stringify(this.dates));//данные
 
-        this.renderList();
-    }
+    //     this.renderList();
+    // }
 
-    calculateDays(){
-        this.dates.forEach(el => {
-            const { month, date } = el;
-            const td = new Date();
+    // calculateDays(){//данные
+    //     this.dates.forEach(el => {
+    //         const { month, date } = el;
+    //         const td = new Date();
 
-            const d = new Date(td.getFullYear() + 1, month - 1, date);
+    //         const d = new Date(td.getFullYear() + 1, month - 1, date);
             
-            el.daysLeft = Math.ceil(Math.abs((td - d) / ( 1000 * 60 * 60 * 24))) % 365;
-        });
+    //         el.daysLeft = Math.ceil(Math.abs((td - d) / ( 1000 * 60 * 60 * 24))) % 365;
+    //     });
 
-        this.dates.sort((prev, next) => prev.daysLeft - next.daysLeft);
-    }
+    //     this.dates.sort((prev, next) => prev.daysLeft - next.daysLeft);
+    // }
 
-    renderList(){
-        const htmlStr = this.dates.map(({ name, month, date, daysLeft }) => {
-            return `<div>${ daysLeft } days to ${ month }.${ date } : ${ name }</div>`;
-        }).join('');
+    // renderList(){//работа с DOM, графикой
+    //     const htmlStr = this.dates.map(({ name, month, date, daysLeft }) => {
+    //         return `<div>${ daysLeft } days to ${ month }.${ date } : ${ name }</div>`;
+    //     }).join('');
 
-        this.infoFields.innerHTML = htmlStr;
-    }
+    //     this.infoFields.innerHTML = htmlStr;
+    // }
 }
